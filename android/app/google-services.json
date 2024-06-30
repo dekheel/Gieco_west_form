@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1025521731420",
+    "project_id": "gieco-west-delta-enr",
+    "storage_bucket": "gieco-west-delta-enr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025521731420:android:d7b07caef4886fcc6e6399",
+        "android_client_info": {
+          "package_name": "com.example.gieco_west"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXZjn6I1gpb1_H9T1CqixT96npjteHDrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
