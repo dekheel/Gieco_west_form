@@ -51,10 +51,12 @@ class CustomTextFormField extends StatelessWidget {
         labelText: labelText,
         hintText: hintText,
         filled: false,
-        suffixIcon: IconButton(
-          onPressed: onTap,
-          icon: suffixIcon ?? const SizedBox.shrink(),
-        ),
+        suffixIcon: suffixIcon == null
+            ? null
+            : IconButton(
+                onPressed: onTap,
+                icon: suffixIcon!,
+              ),
       ),
       controller: controller,
       textInputAction: action ?? TextInputAction.next,

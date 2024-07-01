@@ -719,6 +719,7 @@ class _TripScreenState extends State<TripScreen>
                         SizedBox(
                           width: MediaQuery.sizeOf(context).width * .2,
                           child: CustomTextFormField(
+                              textAlign: TextAlign.left,
                               inputType: TextInputType.number,
                               validator: viewModel.sapFieldValid,
                               hintText: "الساب",
@@ -746,6 +747,7 @@ class _TripScreenState extends State<TripScreen>
                         SizedBox(
                           width: MediaQuery.sizeOf(context).width * .2,
                           child: CustomTextFormField(
+                              textAlign: TextAlign.left,
                               inputType: TextInputType.number,
                               validator: viewModel.sapFieldValid,
                               hintText: "الساب",
@@ -774,6 +776,7 @@ class _TripScreenState extends State<TripScreen>
                         SizedBox(
                           width: MediaQuery.sizeOf(context).width * .2,
                           child: CustomTextFormField(
+                              textAlign: TextAlign.left,
                               inputType: TextInputType.number,
                               validator: viewModel.sapFieldValid,
                               hintText: "الساب",

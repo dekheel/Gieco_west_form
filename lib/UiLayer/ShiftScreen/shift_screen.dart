@@ -538,6 +538,7 @@ class _ShiftScreenState extends State<ShiftScreen>
                         SizedBox(
                           width: MediaQuery.sizeOf(context).width * .2,
                           child: CustomTextFormField(
+                              textAlign: TextAlign.left,
                               inputType: TextInputType.number,
                               validator: viewModel.sapFieldValid,
                               hintText: "الساب",
@@ -565,6 +566,7 @@ class _ShiftScreenState extends State<ShiftScreen>
                         SizedBox(
                           width: MediaQuery.sizeOf(context).width * .2,
                           child: CustomTextFormField(
+                              textAlign: TextAlign.left,
                               inputType: TextInputType.number,
                               validator: viewModel.sapFieldValid,
                               hintText: "الساب",
