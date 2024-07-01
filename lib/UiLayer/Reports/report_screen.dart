@@ -76,24 +76,22 @@ class _ReportWidgetState extends State<ReportWidget> {
                         listData: const ["سفرية", "وردية"]),
                     Gap(10.h),
                     CustomTextFormField(
+                      onTap: () async {
+                        var selectedDate =
+                            await MyFunctions.selectDate(context);
+                        if (selectedDate != null) {
+                          viewModel.reportDateCtrl.text =
+                              MyFunctions.formatDateString(selectedDate);
+                        }
+                      },
                       validator: viewModel.dateFieldValid,
                       labelText: "تاريخ التقرير",
                       isReadOnly: true,
                       controller: viewModel.reportDateCtrl,
                       inputType: TextInputType.datetime,
-                      suffixIcon: IconButton(
-                        onPressed: () async {
-                          var selectedDate =
-                              await MyFunctions.selectDate(context);
-                          if (selectedDate != null) {
-                            viewModel.reportDateCtrl.text =
-                                MyFunctions.formatDateString(selectedDate);
-                          }
-                        },
-                        icon: const Icon(
-                          Icons.date_range,
-                          color: MyColors.blueM3LightPrimary,
-                        ),
+                      suffixIcon: const Icon(
+                        Icons.date_range,
+                        color: MyColors.blueM3LightPrimary,
                       ),
                     ),
                     Gap(10.h),

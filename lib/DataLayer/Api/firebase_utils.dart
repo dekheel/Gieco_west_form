@@ -16,6 +16,7 @@ import 'package:gieco_west/DataLayer/Model/success.dart';
 import 'package:gieco_west/DataLayer/Provider/user_provider.dart';
 import 'package:gieco_west/DataLayer/SharedPreferences/shared_preferences.dart';
 import 'package:gieco_west/Utils/my_functions.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class FirebaseUtils {
@@ -124,6 +125,36 @@ class FirebaseUtils {
     return querySnapshot.data()!;
   }
 
+  Future<QuerySnapshot<MyUser>> fetchUserFromFirestore() {
+    return getUsersCollection().where("role", isNotEqualTo: "admin").get();
+  }
+
+  Future<Either<Failures, Success>> activeUser(
+      String userId, bool isActive) async {
+    if (await _checkConnectivity()) {
+      try {
+        getUsersCollection().doc(userId).update({
+          "active": isActive,
+        }).timeout(
+          const Duration(seconds: 10),
+          onTimeout: () {
+            Left(Failures(errorMessage: "time out , please try again later"));
+          },
+        );
+        return right(Success());
+      } catch (e) {
+        return Left(Failures(errorMessage: e.toString()));
+      }
+    } else {
+      return Left(Failures(errorMessage: "Network Error"));
+    }
+  }
+
+  Future<bool> checkUserState(String uid) async {
+    var querySnapshot = await getUsersCollection().doc(uid).get();
+    return querySnapshot.data()?.active ?? false;
+  }
+
   static CollectionReference<TripReport> getTripReportCollection(String date) {
     String collectionName = "Reports";
 
@@ -153,10 +184,19 @@ class FirebaseUtils {
 
   // add task object to firestore
   Future<Either<Failures, Success>> addTripReportToFirestore(
-      TripReport report) async {
+      TripReport report, String userId) async {
     if (await _checkConnectivity()) {
       try {
         // String? docId = report.generalReportData?.locoNo;
+
+        var userState = await checkUserState(userId);
+
+        if (userState == false) {
+          return Left(Failures(
+              errorMessage:
+                  "عفواُ لقد تم تجميد حسابك يرجى الاتصال بمدير النظام"));
+        }
+
         CollectionReference<TripReport> reportCollection =
             getTripReportCollection(report
                 .generalReportData!.locoDate!.millisecondsSinceEpoch
@@ -178,9 +218,17 @@ class FirebaseUtils {
   }
 
   Future<Either<Failures, Success>> addShiftReportToFirestore(
-      ShiftReport report) async {
+      ShiftReport report, String userId) async {
     if (await _checkConnectivity()) {
       try {
+        var userState = await checkUserState(userId);
+
+        if (userState == false) {
+          return Left(Failures(
+              errorMessage:
+                  "عفواُ لقد تم تجميد حسابك يرجى الاتصال بمدير النظام"));
+        }
+
         // String? docId = report.generalReportData?.locoNo;
         CollectionReference<ShiftReport> reportCollection =
             getShiftReportCollection(report
@@ -335,8 +383,10 @@ class FirebaseUtils {
     }
 
     // if (await Permission.storage.request().isGranted) {
-    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    await Permission.storage.request();
+    await Permission.manageExternalStorage.request();
 
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
     if (selectedDirectory != null) {
       String filePath = '$selectedDirectory/وردية$dateString.xlsx';
       File(filePath)
@@ -384,7 +434,8 @@ class FirebaseUtils {
       }
     }
 
-    // if (await Permission.storage.request().isGranted) {
+    await Permission.storage.request();
+    await Permission.manageExternalStorage.request();
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
 
     if (selectedDirectory != null) {

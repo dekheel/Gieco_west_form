@@ -14,6 +14,7 @@ class CustomTextFormField extends StatelessWidget {
       this.textAlign,
       this.prefixIcon,
       this.hintText,
+      this.onTap,
       this.action,
       super.key});
 
@@ -31,10 +32,15 @@ class CustomTextFormField extends StatelessWidget {
   bool? obscureText;
   final String? hintText;
   final TextInputAction? action;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTapOutside: (event) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      onTap: onTap,
       readOnly: isReadOnly ?? false,
       textAlign: textAlign ?? TextAlign.right,
       maxLines: maxLine ?? 1,
@@ -45,7 +51,10 @@ class CustomTextFormField extends StatelessWidget {
         labelText: labelText,
         hintText: hintText,
         filled: false,
-        suffixIcon: suffixIcon,
+        suffixIcon: IconButton(
+          onPressed: onTap,
+          icon: suffixIcon ?? const SizedBox.shrink(),
+        ),
       ),
       controller: controller,
       textInputAction: action ?? TextInputAction.next,

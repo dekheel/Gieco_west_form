@@ -274,24 +274,22 @@ class _TripScreenState extends State<TripScreen>
                     ),
                     Gap(10.h),
                     CustomTextFormField(
+                      onTap: () async {
+                        var selectedDate =
+                            await MyFunctions.selectDate(context);
+                        if (selectedDate != null) {
+                          viewModel.locoDateCtrl.text =
+                              MyFunctions.formatDateString(selectedDate);
+                        }
+                      },
                       validator: viewModel.dateFieldValid,
                       labelText: "تاريخ السفرية",
                       isReadOnly: true,
                       controller: viewModel.locoDateCtrl,
                       inputType: TextInputType.datetime,
-                      suffixIcon: IconButton(
-                        onPressed: () async {
-                          var selectedDate =
-                              await MyFunctions.selectDate(context);
-                          if (selectedDate != null) {
-                            viewModel.locoDateCtrl.text =
-                                MyFunctions.formatDateString(selectedDate);
-                          }
-                        },
-                        icon: const Icon(
-                          Icons.date_range,
-                          color: MyColors.blueM3LightPrimary,
-                        ),
+                      suffixIcon: const Icon(
+                        Icons.date_range,
+                        color: MyColors.blueM3LightPrimary,
                       ),
                     ),
                     Gap(10.h),
@@ -602,24 +600,21 @@ class _TripScreenState extends State<TripScreen>
                             ),
                             Gap(10.h),
                             CustomTextFormField(
+                              onTap: () async {
+                                var selectedTime = await MyFunctions.selectTime(
+                                    context, viewModel.locoDateCtrl.text);
+                                if (selectedTime != null) {
+                                  viewModel.depTimeCtrl.text = selectedTime;
+                                }
+                              },
                               validator: viewModel.commonFieldValid,
                               labelText: "وقت القيام",
                               isReadOnly: true,
                               controller: viewModel.depTimeCtrl,
                               inputType: TextInputType.datetime,
-                              suffixIcon: IconButton(
-                                onPressed: () async {
-                                  var selectedTime =
-                                      await MyFunctions.selectTime(
-                                          context, viewModel.locoDateCtrl.text);
-                                  if (selectedTime != null) {
-                                    viewModel.depTimeCtrl.text = selectedTime;
-                                  }
-                                },
-                                icon: const Icon(
-                                  Icons.access_time_rounded,
-                                  color: MyColors.blueM3LightPrimary,
-                                ),
+                              suffixIcon: const Icon(
+                                Icons.access_time_rounded,
+                                color: MyColors.blueM3LightPrimary,
                               ),
                             ),
                             Gap(10.h),
@@ -660,24 +655,21 @@ class _TripScreenState extends State<TripScreen>
                             ),
                             Gap(10.h),
                             CustomTextFormField(
+                              onTap: () async {
+                                var selectedTime = await MyFunctions.selectTime(
+                                    context, viewModel.locoDateCtrl.text);
+                                if (selectedTime != null) {
+                                  viewModel.arrTimeCtrl.text = selectedTime;
+                                }
+                              },
                               validator: viewModel.commonFieldValid,
                               labelText: "وقت الوصول",
                               isReadOnly: true,
                               controller: viewModel.arrTimeCtrl,
                               inputType: TextInputType.datetime,
-                              suffixIcon: IconButton(
-                                onPressed: () async {
-                                  var selectedTime =
-                                      await MyFunctions.selectTime(
-                                          context, viewModel.locoDateCtrl.text);
-                                  if (selectedTime != null) {
-                                    viewModel.arrTimeCtrl.text = selectedTime;
-                                  }
-                                },
-                                icon: const Icon(
-                                  Icons.access_time_rounded,
-                                  color: MyColors.blueM3LightPrimary,
-                                ),
+                              suffixIcon: const Icon(
+                                Icons.access_time_rounded,
+                                color: MyColors.blueM3LightPrimary,
                               ),
                             ),
                             Gap(10.h),
@@ -744,10 +736,10 @@ class _TripScreenState extends State<TripScreen>
                               onSuggestionSelected: (value) {
                                 viewModel.trainCapAsstCtrl.text = value!.trim();
                                 viewModel.trainCapAsstSapCtrl.text =
-                                    Const.trainCapAsst[value] ?? "";
+                                    Const.trainCap[value] ?? "";
                               },
                               label: 'مساعد قائد القطار',
-                              suggestion: Const.trainCapAsst.keys.toList(),
+                              suggestion: Const.trainCap.keys.toList(),
                               controller: viewModel.trainCapAsstCtrl),
                         ),
                         Gap(10.w),

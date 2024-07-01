@@ -81,11 +81,12 @@ class TripScreenViewModel extends Cubit<ReportStates> {
   // handle logic
   void addReport(BuildContext context) async {
     if (formKey.currentState!.validate()) {
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
       emit(ReportLoadingState());
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
 
-      var either = await FirebaseUtils.getInstance()
-          .addTripReportToFirestore(getReportModel(context));
+      var either = await FirebaseUtils.getInstance().addTripReportToFirestore(
+          getReportModel(context), userProvider.currentUser?.id ?? "");
       either.fold((l) {
         emit(ReportErrorState(errorMsg: l.errorMessage));
       }, (response) {

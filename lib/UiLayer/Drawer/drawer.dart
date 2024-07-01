@@ -6,6 +6,7 @@ import 'package:gieco_west/UiLayer/Drawer/drawer_item.dart';
 import 'package:gieco_west/UiLayer/Reports/report_screen.dart';
 import 'package:gieco_west/UiLayer/ShiftScreen/shift_screen.dart';
 import 'package:gieco_west/UiLayer/TripScreen/trip_screen.dart';
+import 'package:gieco_west/UiLayer/UsersScreen/users_screen.dart';
 import 'package:gieco_west/Utils/colors.dart';
 import 'package:gieco_west/Utils/widgets/user_info.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -71,26 +72,45 @@ class _MyDrawerState extends State<MyDrawer> {
             Gap(
               20.h,
             ),
-            DrawerItem(
-                icon: Icons.file_present,
-                title: "تقارير",
-                onTap: () async {
-                  if (userProvider.currentUser?.role == "admin") {
-                    // AdManager.loadRewardedAd();
-                    Navigator.of(context).pop();
+            userProvider.currentUser?.role == "admin"
+                ? Column(
+                    children: [
+                      DrawerItem(
+                        icon: Icons.groups,
+                        title: "فريق العمل",
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(UsersScreen.routeName);
+                        },
+                      ),
+                      Gap(
+                        20.h,
+                      ),
+                      DrawerItem(
+                          icon: Icons.file_present,
+                          title: "تقارير",
+                          onTap: () async {
+                            if (userProvider.currentUser?.role == "admin") {
+                              // AdManager.loadRewardedAd();
+                              Navigator.of(context).pop();
 
-                    showMaterialModalBottomSheet(
-                      bounce: true,
-                      context: context,
-                      builder: (context) => const ReportWidget(),
-                    );
-                  } else {
-                    Navigator.of(context).pop();
+                              showMaterialModalBottomSheet(
+                                bounce: true,
+                                context: context,
+                                builder: (context) => const ReportWidget(),
+                              );
+                            } else {
+                              Navigator.of(context).pop();
 
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("ليس لديك صلاحية الاطلاع على التقارير")));
-                  }
-                }),
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "ليس لديك صلاحية الاطلاع على التقارير")));
+                            }
+                          }),
+                    ],
+                  )
+                : const SizedBox.shrink()
           ],
         ),
       ),

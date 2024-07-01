@@ -26,6 +26,7 @@ class DrawerItem extends StatelessWidget {
           // AdManager.loadInterstitialAd();
           onTap();
         } else {
+          Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("يجب تفعيل الحساب رجاء الاتصال بمدير النظام"),

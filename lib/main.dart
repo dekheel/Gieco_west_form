@@ -12,6 +12,7 @@ import 'package:gieco_west/UiLayer/HomeScreen/home_screen.dart';
 import 'package:gieco_west/UiLayer/ShiftScreen/shift_screen.dart';
 import 'package:gieco_west/UiLayer/SplashScreen/splash_screen.dart';
 import 'package:gieco_west/UiLayer/TripScreen/trip_screen.dart';
+import 'package:gieco_west/UiLayer/UsersScreen/users_screen.dart';
 import 'package:gieco_west/Utils/FireBase/firebase_options.dart';
 import 'package:gieco_west/Utils/colors.dart';
 import 'package:gieco_west/Utils/const.dart';
@@ -55,7 +56,8 @@ class MyApp extends StatelessWidget {
           SignUpPage.routeName: (context) => const SignUpPage(),
           HomeScreen.routeName: (context) => const HomeScreen(),
           TripScreen.routeName: (context) => const TripScreen(),
-          ShiftScreen.routeName: (context) => const ShiftScreen()
+          ShiftScreen.routeName: (context) => const ShiftScreen(),
+          UsersScreen.routeName: (context) => UsersScreen()
         },
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: const [
