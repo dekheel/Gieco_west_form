@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gieco_west/DataLayer/Api/firebase_utils.dart';
 import 'package:gieco_west/UiLayer/Reports/report_states.dart';
+import 'package:gieco_west/Utils/my_functions.dart';
 import 'package:string_validator/string_validator.dart';
 
 class ReportScreenViewModel extends Cubit<CreateReportStates> {
@@ -17,13 +18,10 @@ class ReportScreenViewModel extends Cubit<CreateReportStates> {
       emit(CreateReportLoadingState());
       var either = reportTypeCtrl.text == "سفرية"
           ? await FirebaseUtils.getInstance().createTripReportFirestore(
-              DateTime.parse(reportDateCtrl.text)
-                  .millisecondsSinceEpoch
-                  .toString())
+              MyFunctions.formatDateString(DateTime.parse(reportDateCtrl.text)))
           : await FirebaseUtils.getInstance().createShiftReportFirestore(
-              DateTime.parse(reportDateCtrl.text)
-                  .millisecondsSinceEpoch
-                  .toString());
+              MyFunctions.formatDateString(
+                  DateTime.parse(reportDateCtrl.text)));
 
       either.fold((l) {
         emit(CreateReportErrorState(errorMsg: l.errorMessage));

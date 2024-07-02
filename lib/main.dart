@@ -17,13 +17,12 @@ import 'package:gieco_west/Utils/FireBase/firebase_options.dart';
 import 'package:gieco_west/Utils/colors.dart';
 import 'package:gieco_west/Utils/const.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   // when we use async in main function to enforce main to wait until future code is done
   WidgetsFlutterBinding.ensureInitialized();
-  await MobileAds.instance.initialize();
+  // await MobileAds.instance.initialize();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

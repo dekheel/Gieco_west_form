@@ -15,7 +15,6 @@ import 'package:gieco_west/DataLayer/Model/my_user.dart';
 import 'package:gieco_west/DataLayer/Model/success.dart';
 import 'package:gieco_west/DataLayer/Provider/user_provider.dart';
 import 'package:gieco_west/DataLayer/SharedPreferences/shared_preferences.dart';
-import 'package:gieco_west/Utils/my_functions.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -160,7 +159,7 @@ class FirebaseUtils {
 
     return FirebaseFirestore.instance
         .collection(collectionName)
-        .doc(date.toString())
+        .doc(date)
         .collection(TripReport.collectionName)
         .withConverter<TripReport>(
             fromFirestore: (snapshot, options) =>
@@ -174,7 +173,7 @@ class FirebaseUtils {
 
     return FirebaseFirestore.instance
         .collection(collectionName)
-        .doc(date.toString())
+        .doc(date)
         .collection(ShiftReport.collectionName)
         .withConverter<ShiftReport>(
             fromFirestore: (snapshot, options) =>
@@ -198,9 +197,7 @@ class FirebaseUtils {
         }
 
         CollectionReference<TripReport> reportCollection =
-            getTripReportCollection(report
-                .generalReportData!.locoDate!.millisecondsSinceEpoch
-                .toString());
+            getTripReportCollection(report.generalReportData!.locoDate!);
         DocumentReference<TripReport> docRef = reportCollection.doc();
         docRef.set(report).timeout(
           const Duration(seconds: 10),
@@ -231,9 +228,7 @@ class FirebaseUtils {
 
         // String? docId = report.generalReportData?.locoNo;
         CollectionReference<ShiftReport> reportCollection =
-            getShiftReportCollection(report
-                .generalReportData!.locoDate!.millisecondsSinceEpoch
-                .toString());
+            getShiftReportCollection(report.generalReportData!.locoDate!);
         DocumentReference<ShiftReport> docRef = reportCollection.doc();
         docRef.set(report).timeout(
           const Duration(seconds: 10),
@@ -350,7 +345,6 @@ class FirebaseUtils {
 
   Future<Either<Failures, Success>> createShiftReportExcel(
       List<ShiftReport> data, String date) async {
-    String dateString = MyFunctions.millisecondsToFormattedDate(date);
     var excel = Excel.createExcel();
     Sheet shiftReportSheet = excel['Sheet1'];
     excel.setDefaultSheet(shiftReportSheet.sheetName);
@@ -388,7 +382,7 @@ class FirebaseUtils {
 
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
     if (selectedDirectory != null) {
-      String filePath = '$selectedDirectory/وردية$dateString.xlsx';
+      String filePath = '$selectedDirectory/وردية$date.xlsx';
       File(filePath)
         ..createSync(recursive: true)
         ..writeAsBytesSync(excel.encode()!);
@@ -401,8 +395,6 @@ class FirebaseUtils {
 
   Future<Either<Failures, Success>> createTripReportExcel(
       List<TripReport> data, String date) async {
-    String dateString = MyFunctions.millisecondsToFormattedDate(date);
-
     var excel = Excel.createExcel();
     Sheet tripReportSheet = excel['Sheet1'];
     excel.setDefaultSheet(tripReportSheet.sheetName);
@@ -439,7 +431,7 @@ class FirebaseUtils {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
 
     if (selectedDirectory != null) {
-      String filePath = '$selectedDirectory/سفرية$dateString.xlsx';
+      String filePath = '$selectedDirectory/سفرية$date.xlsx';
       File(filePath)
         ..createSync(recursive: true)
         ..writeAsBytesSync(excel.encode()!);

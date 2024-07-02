@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:intl/intl.dart';
-
 class GeneralReportData {
   GeneralReportData(
       {this.locoNo,
@@ -10,7 +8,7 @@ class GeneralReportData {
       this.locoCapNotes,
       this.user});
   String? locoNo;
-  DateTime? locoDate;
+  String? locoDate;
   String? locoCapNotes;
   String? globalNote;
   String? user;
@@ -18,7 +16,7 @@ class GeneralReportData {
   Map<String, dynamic> toFirestore() {
     return {
       "locoNo": locoNo,
-      "locoDate": locoDate?.millisecondsSinceEpoch,
+      "locoDate": locoDate,
       "locoCapNotes": locoCapNotes,
       "globalNote": globalNote,
       "user": user,
@@ -28,7 +26,7 @@ class GeneralReportData {
   GeneralReportData.fromFirestore(Map<String, dynamic>? data)
       : this(
             locoNo: data?["locoNo"],
-            locoDate: DateTime.fromMillisecondsSinceEpoch(data?["locoDate"]),
+            locoDate: data?["locoDate"],
             locoCapNotes: data?["locoCapNotes"],
             globalNote: data?["globalNote"],
             user: data?["user"]);
@@ -219,31 +217,21 @@ class TripReport {
   Map<String, dynamic> toExcelSheet(Map<String, dynamic> data) {
     return {
       "رقم الجرار-القطار": data["generalReportData"]["locoNo"],
-      "تاريخ السفرية": DateFormat("yyyy-MM-dd").format(
-          DateTime.fromMillisecondsSinceEpoch(
-              data["generalReportData"]["locoDate"])),
+      "تاريخ السفرية": data["generalReportData"]["locoDate"],
       "ملاحظات القائد": data["generalReportData"]["locoCapNotes"],
-      "التموين": data["fuelReportData"]["isFuel"] ? "نعم" : "لا",
-      "رقم البون": data["fuelReportData"]["isFuel"]
-          ? data["fuelReportData"]["fuelInvoiceNo"]
-          : "لا",
-      "نوع التموين": data["fuelReportData"]["isFuel"]
-          ? data["fuelReportData"]["fuelType"]
-          : "لا",
-      "كمية السولار المنصرفة": data["fuelReportData"]["isFuel"]
-          ? data["fuelReportData"]["gazQty"]
-          : "لا",
-      "كمية الزيت المنصرفة": data["fuelReportData"]["isFuel"]
-          ? data["fuelReportData"]["oilQty"]
-          : "لا",
-      "صورة البون": data["fuelReportData"]["isFuel"]
-          ? data["fuelReportData"]["invoiceImagePath"]
-          : "لا",
+      "التموين": data["fuelReportData"]["isFuel"] == true ? "نعم" : "لا",
+      if (data["fuelReportData"]["isFuel"] == "نعم") ...{
+        "رقم البون": data["fuelReportData"]["fuelInvoiceNo"],
+        "نوع التموين": data["fuelReportData"]["fuelType"],
+        "كمية السولار المنصرفة": data["fuelReportData"]["gazQty"],
+        "كمية الزيت المنصرفة": data["fuelReportData"]["oilQty"],
+        "صورة البون": data["fuelReportData"]["invoiceImagePath"],
+      },
       "نوع القطار": data["stockTripReportData"]["trainType"],
       "حالة القطار": data["stockTripReportData"]["trainState"],
-      "رقم البوليصة": data["stockTripReportData"]["trainState"] == "مشحون"
-          ? data["stockTripReportData"]["waybillNo"]
-          : "لا",
+      if (data["stockTripReportData"]["trainState"] == "مشحون") ...{
+        "رقم البوليصة": data["stockTripReportData"]["waybillNo"]
+      },
       "برسم": data["stockTripReportData"]["tariff"],
       "عدد العربات": data["stockTripReportData"]["coachQuantity"],
       "رقم اول عربة": data["stockTripReportData"]["firstCoachNo"],
@@ -252,16 +240,17 @@ class TripReport {
       "اماكن التخزين": data["stockTripReportData"]["tempStation"],
       "أمن القطار": data["stockTripReportData"]["trainSecurity"],
       "نوع الرحلة": data["tripType"],
-      "محطة القيام": data["tripType"] == "قيام" ? data["depStation"] : "لا",
-      "وقت القيام": data["tripType"] == "قيام" ? data["depTime"] : "لا",
-      "السولار عند القيام":
-          data["tripType"] == "قيام" ? data["gazOnDep"] : "لا",
-      "محطة الوصول التالية":
-          data["tripType"] == "قيام" ? data["nxtArrFromdepStation"] : "لا",
-      "محطة الوصول": data["tripType"] == "وصول" ? data["arrStation"] : "لا",
-      "وقت الوصول": data["tripType"] == "وصول" ? data["arrTime"] : "لا",
-      "السولار عند الوصول":
-          data["tripType"] == "وصول" ? data["gazOnArr"] : "لا",
+      if (data["tripType"] == "قيام") ...{
+        "محطة القيام": data["depStation"],
+        "وقت القيام": data["depTime"],
+        "السولار عند القيام": data["gazOnDep"],
+        "محطة الوصول التالية": data["nxtArrFromdepStation"],
+      },
+      if (data["tripType"] == "وصول") ...{
+        "محطة الوصول": data["arrStation"],
+        "وقت الوصول": data["arrTime"],
+        "السولار عند الوصول": data["gazOnArr"],
+      },
       "قائد القطار": data["employeeReportData"]["trainCap"],
       "ساب القائد": data["employeeReportData"]["trainCapSap"],
       "م قائد القطار": data["employeeReportData"]["trainCapAsst"],
@@ -351,26 +340,16 @@ class ShiftReport {
   Map<String, dynamic> toExcelSheet(Map<String, dynamic> data) {
     return {
       "رقم الجرار-القطار": data["generalReportData"]["locoNo"],
-      "تاريخ السفرية": DateFormat("yyyy-MM-dd").format(
-          DateTime.fromMillisecondsSinceEpoch(
-              data["generalReportData"]["locoDate"])),
+      "تاريخ السفرية": data["generalReportData"]["locoDate"],
       "ملاحظات القائد": data["generalReportData"]["locoCapNotes"],
-      "التموين": data["fuelReportData"]["isFuel"] ? "نعم" : "لا",
-      "رقم البون": data["fuelReportData"]["isFuel"]
-          ? data["fuelReportData"]["fuelInvoiceNo"]
-          : "لا",
-      "نوع التموين": data["fuelReportData"]["isFuel"]
-          ? data["fuelReportData"]["fuelType"]
-          : "لا",
-      "كمية السولار المنصرفة": data["fuelReportData"]["isFuel"]
-          ? data["fuelReportData"]["gazQty"]
-          : "لا",
-      "كمية الزيت المنصرفة": data["fuelReportData"]["isFuel"]
-          ? data["fuelReportData"]["oilQty"]
-          : "لا",
-      "صورة البون": data["fuelReportData"]["isFuel"]
-          ? data["fuelReportData"]["invoiceImagePath"]
-          : "لا",
+      "التموين": data["fuelReportData"]["isFuel"] == true ? "نعم" : "لا",
+      if (data["fuelReportData"]["isFuel"] == "نعم") ...{
+        "رقم البون": data["fuelReportData"]["fuelInvoiceNo"],
+        "نوع التموين": data["fuelReportData"]["fuelType"],
+        "كمية السولار المنصرفة": data["fuelReportData"]["gazQty"],
+        "كمية الزيت المنصرفة": data["fuelReportData"]["oilQty"],
+        "صورة البون": data["fuelReportData"]["invoiceImagePath"],
+      },
       "نوع الوردية": data["shiftType"],
       "محطة الوردية": data["depStation"],
       "ساعة بداية الوردية": data["depTime"],

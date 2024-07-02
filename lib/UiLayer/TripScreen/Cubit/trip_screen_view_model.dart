@@ -177,7 +177,7 @@ class TripScreenViewModel extends Cubit<ReportStates> {
     TripReport reportModel = TripReport(
       generalReportData: GeneralReportData(
         locoNo: locoNoCtrl.text,
-        locoDate: DateTime.parse(locoDateCtrl.text),
+        locoDate: locoDateCtrl.text,
         locoCapNotes: locoCapNotesCtrl.text,
         globalNote:
             globalNoteCtrl.text.isEmpty ? "لا يوجد" : globalNoteCtrl.text,
@@ -238,7 +238,7 @@ class TripScreenViewModel extends Cubit<ReportStates> {
     locoNoCtrl.clear();
     locoNoCtrl.clear();
     locoDateCtrl.clear();
-    locoCapNotesCtrl.clear();
+    locoCapNotesCtrl.text = "لا يوجد";
 
     //fuel info
     isFuel = false;
@@ -279,7 +279,7 @@ class TripScreenViewModel extends Cubit<ReportStates> {
     trainConductorSapCtrl.clear();
 
 // global note
-    globalNoteCtrl.clear();
+    globalNoteCtrl.text = "لا يوجد";
   }
 
   void onTrainCapAsstChanged() {

@@ -44,12 +44,11 @@ class ShiftScreenViewModel extends Cubit<ReportStates> {
 
   //Shift  info
   TextEditingController shiftTypeCtrl = TextEditingController();
-  TextEditingController depStationCtrl =
-      TextEditingController(text: "الاسكندرية");
-  TextEditingController depTimeCtrl = TextEditingController(text: "15:55");
-  TextEditingController arrTimeCtrl = TextEditingController(text: "15:55");
-  TextEditingController gazOnDepCtrl = TextEditingController(text: "1500");
-  TextEditingController gazOnArrCtrl = TextEditingController(text: "100");
+  TextEditingController depStationCtrl = TextEditingController();
+  TextEditingController depTimeCtrl = TextEditingController();
+  TextEditingController arrTimeCtrl = TextEditingController();
+  TextEditingController gazOnDepCtrl = TextEditingController();
+  TextEditingController gazOnArrCtrl = TextEditingController();
 
   //Shift emp info
   TextEditingController trainCapCtrl = TextEditingController();
@@ -66,7 +65,7 @@ class ShiftScreenViewModel extends Cubit<ReportStates> {
       var userProvider = Provider.of<UserProvider>(context, listen: false);
 
       emit(ReportLoadingState());
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
 
       var either = await FirebaseUtils.getInstance().addShiftReportToFirestore(
           getReportModel(context), userProvider.currentUser?.id ?? "");
@@ -160,7 +159,7 @@ class ShiftScreenViewModel extends Cubit<ReportStates> {
     ShiftReport reportModel = ShiftReport(
       generalReportData: GeneralReportData(
         locoNo: locoNoCtrl.text,
-        locoDate: DateTime.parse(locoDateCtrl.text),
+        locoDate: locoDateCtrl.text,
         locoCapNotes: locoCapNotesCtrl.text,
         globalNote:
             globalNoteCtrl.text.isEmpty ? "لا يوجد" : globalNoteCtrl.text,
@@ -203,7 +202,7 @@ class ShiftScreenViewModel extends Cubit<ReportStates> {
     locoNoCtrl.clear();
     locoNoCtrl.clear();
     locoDateCtrl.clear();
-    locoCapNotesCtrl.clear();
+    locoCapNotesCtrl.text = "لا يوجد";
 
     //fuel info
     isFuel = false;
@@ -227,7 +226,7 @@ class ShiftScreenViewModel extends Cubit<ReportStates> {
     trainCapAsstSapCtrl.clear();
 
 // global note
-    globalNoteCtrl.clear();
+    globalNoteCtrl.text = "لا يوجد";
   }
 
   void onTrainCapAsstChanged() {

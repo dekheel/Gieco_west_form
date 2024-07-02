@@ -333,12 +333,12 @@ class _TripScreenState extends State<TripScreen>
                           value: viewModel.isFuel,
                           // changes the state of the switch
                           onChanged: (value) {
-                            if (value == false) {
-                              viewModel.fuelInvoiceNoCtrl.clear();
-                              viewModel.fuelType = null;
-                              viewModel.gazQtyCtrl.clear();
-                              viewModel.oilQtyCtrl.clear();
-                              viewModel.fuelInvoiceUrlCtrl.clear();
+                            if (viewModel.isFuel == false) {
+                              viewModel.fuelInvoiceNoCtrl.text = "";
+                              viewModel.fuelType = "";
+                              viewModel.gazQtyCtrl.text = "";
+                              viewModel.oilQtyCtrl.text = "";
+                              viewModel.fuelInvoiceUrlCtrl.text = "";
                               viewModel.pickedImage = null;
                             }
                             setState(() => viewModel.isFuel = value);
