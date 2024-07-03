@@ -220,18 +220,26 @@ class TripReport {
       "تاريخ السفرية": data["generalReportData"]["locoDate"],
       "ملاحظات القائد": data["generalReportData"]["locoCapNotes"],
       "التموين": data["fuelReportData"]["isFuel"] == true ? "نعم" : "لا",
-      if (data["fuelReportData"]["isFuel"] == "نعم") ...{
-        "رقم البون": data["fuelReportData"]["fuelInvoiceNo"],
-        "نوع التموين": data["fuelReportData"]["fuelType"],
-        "كمية السولار المنصرفة": data["fuelReportData"]["gazQty"],
-        "كمية الزيت المنصرفة": data["fuelReportData"]["oilQty"],
-        "صورة البون": data["fuelReportData"]["invoiceImagePath"],
-      },
+      "رقم البون": data["fuelReportData"]["isFuel"] == true
+          ? data["fuelReportData"]["fuelInvoiceNo"]
+          : "-",
+      "نوع التموين": data["fuelReportData"]["isFuel"] == true
+          ? data["fuelReportData"]["fuelType"]
+          : "-",
+      "كمية السولار المنصرفة": data["fuelReportData"]["isFuel"] == true
+          ? data["fuelReportData"]["gazQty"]
+          : "-",
+      "كمية الزيت المنصرفة": data["fuelReportData"]["isFuel"] == true
+          ? data["fuelReportData"]["oilQty"]
+          : "-",
+      "صورة البون": data["fuelReportData"]["isFuel"] == true
+          ? data["fuelReportData"]["invoiceImagePath"]
+          : "-",
       "نوع القطار": data["stockTripReportData"]["trainType"],
       "حالة القطار": data["stockTripReportData"]["trainState"],
-      if (data["stockTripReportData"]["trainState"] == "مشحون") ...{
-        "رقم البوليصة": data["stockTripReportData"]["waybillNo"]
-      },
+      "رقم البوليصة": data["stockTripReportData"]["trainState"] == "مشحون"
+          ? data["stockTripReportData"]["waybillNo"]
+          : "-",
       "برسم": data["stockTripReportData"]["tariff"],
       "عدد العربات": data["stockTripReportData"]["coachQuantity"],
       "رقم اول عربة": data["stockTripReportData"]["firstCoachNo"],
@@ -240,17 +248,14 @@ class TripReport {
       "اماكن التخزين": data["stockTripReportData"]["tempStation"],
       "أمن القطار": data["stockTripReportData"]["trainSecurity"],
       "نوع الرحلة": data["tripType"],
-      if (data["tripType"] == "قيام") ...{
-        "محطة القيام": data["depStation"],
-        "وقت القيام": data["depTime"],
-        "السولار عند القيام": data["gazOnDep"],
-        "محطة الوصول التالية": data["nxtArrFromdepStation"],
-      },
-      if (data["tripType"] == "وصول") ...{
-        "محطة الوصول": data["arrStation"],
-        "وقت الوصول": data["arrTime"],
-        "السولار عند الوصول": data["gazOnArr"],
-      },
+      "محطة القيام": data["tripType"] == "قيام" ? data["depStation"] : "-",
+      "وقت القيام": data["tripType"] == "قيام" ? data["depTime"] : "-",
+      "السولار عند القيام": data["tripType"] == "قيام" ? data["gazOnDep"] : "-",
+      "محطة الوصول التالية":
+          data["tripType"] == "قيام" ? data["nxtArrFromdepStation"] : "-",
+      "محطة الوصول": data["tripType"] == "وصول" ? data["arrStation"] : "-",
+      "وقت الوصول": data["tripType"] == "وصول" ? data["arrTime"] : "-",
+      "السولار عند الوصول": data["tripType"] == "وصول" ? data["gazOnArr"] : "-",
       "قائد القطار": data["employeeReportData"]["trainCap"],
       "ساب القائد": data["employeeReportData"]["trainCapSap"],
       "م قائد القطار": data["employeeReportData"]["trainCapAsst"],
@@ -343,13 +348,21 @@ class ShiftReport {
       "تاريخ السفرية": data["generalReportData"]["locoDate"],
       "ملاحظات القائد": data["generalReportData"]["locoCapNotes"],
       "التموين": data["fuelReportData"]["isFuel"] == true ? "نعم" : "لا",
-      if (data["fuelReportData"]["isFuel"] == "نعم") ...{
-        "رقم البون": data["fuelReportData"]["fuelInvoiceNo"],
-        "نوع التموين": data["fuelReportData"]["fuelType"],
-        "كمية السولار المنصرفة": data["fuelReportData"]["gazQty"],
-        "كمية الزيت المنصرفة": data["fuelReportData"]["oilQty"],
-        "صورة البون": data["fuelReportData"]["invoiceImagePath"],
-      },
+      "رقم البون": data["fuelReportData"]["isFuel"] == true
+          ? data["fuelReportData"]["fuelInvoiceNo"]
+          : "-",
+      "نوع التموين": data["fuelReportData"]["isFuel"] == true
+          ? data["fuelReportData"]["fuelType"]
+          : "-",
+      "كمية السولار المنصرفة": data["fuelReportData"]["isFuel"] == true
+          ? data["fuelReportData"]["gazQty"]
+          : "-",
+      "كمية الزيت المنصرفة": data["fuelReportData"]["isFuel"] == true
+          ? data["fuelReportData"]["oilQty"]
+          : "-",
+      "صورة البون": data["fuelReportData"]["isFuel"] == true
+          ? data["fuelReportData"]["invoiceImagePath"]
+          : "-",
       "نوع الوردية": data["shiftType"],
       "محطة الوردية": data["depStation"],
       "ساعة بداية الوردية": data["depTime"],
