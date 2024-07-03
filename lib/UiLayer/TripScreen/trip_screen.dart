@@ -435,7 +435,7 @@ class _TripScreenState extends State<TripScreen>
                   Gap(10.h),
                   CustomDropFormField(
                       onChanged: (value) {
-                        viewModel.trainType = value ?? "";
+                        viewModel.trainType = value;
                       },
                       labelText: 'نوع القطار',
                       listData: Const.trainTypeList),
@@ -445,14 +445,14 @@ class _TripScreenState extends State<TripScreen>
                         if (value != null && value == "فوارغ") {
                           setState(() {
                             viewModel.trainEmpty = "فوارغ";
-                            viewModel.waybillNoCtrl.clear();
+                            viewModel.waybillNoCtrl.text = "";
                           });
                         } else {
                           setState(() {
                             viewModel.trainEmpty = "مشحون";
                           });
                         }
-                        viewModel.trainState = value ?? "";
+                        viewModel.trainState = value;
                       },
                       labelText: 'حالة القطار',
                       listData: Const.trainStateList),

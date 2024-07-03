@@ -232,7 +232,9 @@ class TripReport {
       "كمية الزيت المنصرفة": data["fuelReportData"]["isFuel"] == true
           ? data["fuelReportData"]["oilQty"]
           : "-",
-      "صورة البون": data["fuelReportData"]["isFuel"] == true
+      "صورة البون": (data["fuelReportData"]["isFuel"] == true &&
+              data["fuelReportData"]["invoiceImagePath"] != null &&
+              data["fuelReportData"]["invoiceImagePath"] != "")
           ? data["fuelReportData"]["invoiceImagePath"]
           : "-",
       "نوع القطار": data["stockTripReportData"]["trainType"],
@@ -345,7 +347,7 @@ class ShiftReport {
   Map<String, dynamic> toExcelSheet(Map<String, dynamic> data) {
     return {
       "رقم الجرار-القطار": data["generalReportData"]["locoNo"],
-      "تاريخ السفرية": data["generalReportData"]["locoDate"],
+      "تاريخ الوردية": data["generalReportData"]["locoDate"],
       "ملاحظات القائد": data["generalReportData"]["locoCapNotes"],
       "التموين": data["fuelReportData"]["isFuel"] == true ? "نعم" : "لا",
       "رقم البون": data["fuelReportData"]["isFuel"] == true
@@ -360,7 +362,9 @@ class ShiftReport {
       "كمية الزيت المنصرفة": data["fuelReportData"]["isFuel"] == true
           ? data["fuelReportData"]["oilQty"]
           : "-",
-      "صورة البون": data["fuelReportData"]["isFuel"] == true
+      "صورة البون": (data["fuelReportData"]["isFuel"] == true &&
+              data["fuelReportData"]["invoiceImagePath"] != null &&
+              data["fuelReportData"]["invoiceImagePath"] != "")
           ? data["fuelReportData"]["invoiceImagePath"]
           : "-",
       "نوع الوردية": data["shiftType"],
