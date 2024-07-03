@@ -195,7 +195,6 @@ class TripScreenViewModel extends Cubit<ReportStates> {
         trainType: trainType,
         coachQuantity: coachQtyCtrl.text,
         trainState: trainState,
-        trainEmpty: trainEmpty,
         waybillNo: waybillNoCtrl.text,
         tariff: tariffCtrl.text,
         firstCoachNo: firstCoachNoCtrl.text,
