@@ -9,11 +9,14 @@ class MyUser {
       this.email,
       this.active,
       this.password,
+      this.token,
       this.job});
 
   final String? sap;
   final String? name;
   String? id;
+  String? token;
+
   final String? role;
   String? email;
   String? password;
@@ -24,6 +27,7 @@ class MyUser {
   MyUser.fromFirestore(Map<String, dynamic>? data)
       : this(
             id: data?["id"] as String,
+            token: data?["token"] as String?,
             sap: data?["sap"] as String,
             email: data?["email"] as String,
             job: data?["job"] as String,
@@ -36,6 +40,7 @@ class MyUser {
       "role": role,
       "id": id,
       "sap": sap,
+      "token": token,
       "name": name,
       "email": email,
       "active": active,

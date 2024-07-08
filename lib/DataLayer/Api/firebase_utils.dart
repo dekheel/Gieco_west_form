@@ -37,6 +37,22 @@ class FirebaseUtils {
             toFirestore: (user, _) => user.toFirestore());
   }
 
+  static CollectionReference getListsCollection() {
+    return FirebaseFirestore.instance.collection("Lists");
+  }
+
+  static Future getTrainCap() async {
+    return await getListsCollection().doc("trainCap").get();
+  }
+
+  static Future getTrainConductor() async {
+    return await getListsCollection().doc("trainConductor").get();
+  }
+
+  static Future getTrainTypeList() async {
+    return await getListsCollection().doc("trainTypeList").get();
+  }
+
   Future<Either<Failures, Success>> signInFirebase(
       String emailAddress, String password, BuildContext context) async {
     if (await _checkConnectivity()) {
@@ -48,6 +64,12 @@ class FirebaseUtils {
 
         // read user data
         var user = await readUserFromFirestore(credential.user!.uid);
+
+        // user.token = await FirebaseMessaging.instance.getToken();
+        //
+        // await getUsersCollection().doc(user.id).update({
+        //   "token": user.token,
+        // });
 
         // save user data
         await SharedPreference.saveUserData(userDto: user);

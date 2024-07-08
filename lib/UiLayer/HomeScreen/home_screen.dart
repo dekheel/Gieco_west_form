@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:gieco_west/DataLayer/Api/firebase_utils.dart';
 import 'package:gieco_west/UiLayer/AuthScreens/LoginScreen/login_screen.dart';
 import 'package:gieco_west/UiLayer/Drawer/drawer.dart';
 import 'package:gieco_west/UiLayer/HomeScreen/widgets/home_item.dart';
@@ -10,6 +11,7 @@ import 'package:gieco_west/UiLayer/TripScreen/trip_screen.dart';
 import 'package:gieco_west/Utils/colors.dart';
 import 'package:gieco_west/Utils/const.dart';
 import 'package:gieco_west/Utils/dialog_utils.dart';
+import 'package:gieco_west/Utils/my_functions.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,6 +23,40 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    handleData();
+    super.initState();
+  }
+
+  Future<void> handleData() async {
+    var trainCap = await FirebaseUtils.getTrainCap();
+    var trainConductor = await FirebaseUtils.getTrainConductor();
+    var trainTypeList = await FirebaseUtils.getTrainTypeList();
+
+    if (trainCap.data() != null) {
+      Const.trainCap.addAll(trainCap.data());
+
+      Const.trainCap = MyFunctions.sortMap(Const.trainCap);
+    }
+    if (trainConductor.data() != null) {
+      Const.trainConductor.addAll(trainConductor.data());
+      Const.trainConductor = MyFunctions.sortMap(Const.trainConductor);
+    }
+
+    if (trainTypeList.data() != null) {
+      Const.trainTypeList = [
+        ...Const.trainTypeList,
+        ...?trainTypeList.data()!["trainTypeList"]
+      ];
+      Const.trainTypeList.sort(
+        (a, b) {
+          return a.compareTo(b);
+        },
+      );
+    }
+  }
+
   DateTime? lastPressedAt;
 
   bool canPop = false;

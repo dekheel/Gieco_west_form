@@ -66,6 +66,11 @@ class ShiftScreenViewModel extends Cubit<ReportStates> {
 
       emit(ReportLoadingState());
       await Future.delayed(const Duration(seconds: 5));
+      if (trainCapCtrl.text == trainCapAsstCtrl.text) {
+        emit(ReportErrorState(
+            errorMsg: "عفواً يجب اختيار قائد ومساعد قائد قطار مختلفين"));
+        return;
+      }
 
       var either = await FirebaseUtils.getInstance().addShiftReportToFirestore(
           getReportModel(context), userProvider.currentUser?.id ?? "");

@@ -84,7 +84,11 @@ class TripScreenViewModel extends Cubit<ReportStates> {
       var userProvider = Provider.of<UserProvider>(context, listen: false);
       emit(ReportLoadingState());
       await Future.delayed(const Duration(seconds: 5));
-
+      if (trainCapCtrl.text == trainCapAsstCtrl.text) {
+        emit(ReportErrorState(
+            errorMsg: "عفواً يجب اختيار قائد ومساعد قائد قطار مختلفين"));
+        return;
+      }
       var either = await FirebaseUtils.getInstance().addTripReportToFirestore(
           getReportModel(context), userProvider.currentUser?.id ?? "");
       either.fold((l) {

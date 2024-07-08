@@ -43,4 +43,11 @@ class MyFunctions {
     var date = DateTime.fromMillisecondsSinceEpoch(int.parse(milliseconds));
     return DateFormat('yyyy-MM-dd').format(date);
   }
+
+  static Map<String, dynamic> sortMap(Map<String, dynamic> map) {
+    Map<String, dynamic> sortedMap = Map.fromEntries(
+        (map.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key))));
+
+    return sortedMap;
+  }
 }

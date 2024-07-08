@@ -15,6 +15,7 @@ class Const {
   ];
 
   static List<String> trainTypeList = [
+    "احجار",
     "اسمنت",
     "اكسيد",
     "تجهيز",
@@ -35,7 +36,7 @@ class Const {
     "فوارغ",
   ];
 
-  static Map<String, String> trainCap = {
+  static Map<String, dynamic> trainCap = {
     " ابراهيم محمود البقلى ": "22239",
     "احمد حفني احمد عفيفي": "22300",
     "السيد البدوي محمد عبد العليم محمد": "22302",
@@ -68,7 +69,7 @@ class Const {
     "منصور عبد الهادي منصور عبد النبي": "86416",
   };
 
-  static Map<String, String> trainConductor = {
+  static Map<String, dynamic> trainConductor = {
     "احمد ابو القاسم احمد عبد المجيد ": "89870",
     "احمد بدوى بدوى ابو غربية ": "88305",
     "احمد رجب أبو زيد سليم ": "86034",
