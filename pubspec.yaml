@@ -40,7 +40,12 @@ dependencies:
   firebase_auth: ^5.1.0
 #  animated_icon_button: ^1.0.2
   flutter_easyloading: ^3.0.5
+  firebase_messaging: ^15.0.3
+  googleapis: ^13.1.0
+  googleapis_auth: ^1.6.0
+  http: ^1.2.1
   dartz: ^0.10.1
+  flutter_local_notifications: ^17.2.1+1
   connectivity_plus: ^6.0.3
 #  curved_navigation_bar: ^1.0.4
   image_picker: ^1.0.1

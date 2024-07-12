@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gieco_west/UiLayer/AuthScreens/LoginScreen/login_screen.dart';
-import 'package:gieco_west/UiLayer/HomeScreen/home_screen.dart';
+import 'package:gieco_west/UiLayer/AuthScreens/AuthChecker/auth_checker.dart';
 import 'package:gieco_west/Utils/const.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,11 +20,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 2), () {
-      FirebaseAuth.instance.currentUser?.uid == null
-          ?
-          // userProvider.currentUser == null
-          {Navigator.of(context).pushReplacementNamed(LoginPage.routeName)}
-          : {Navigator.of(context).pushReplacementNamed(HomeScreen.routeName)};
+      Navigator.of(context).pushReplacementNamed(AuthChecker.routeName);
+
+      // FirebaseAuth.instance.currentUser?.uid == null
+      //     ?
+      //     // userProvider.currentUser == null
+      //     {Navigator.of(context).pushReplacementNamed(LoginPage.routeName)}
+      //     : {Navigator.of(context).pushReplacementNamed(HomeScreen.routeName)};
     });
     return Scaffold(
       backgroundColor: Colors.white,

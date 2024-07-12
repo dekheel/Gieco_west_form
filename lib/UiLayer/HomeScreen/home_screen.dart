@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:gieco_west/DataLayer/Api/firebase_utils.dart';
+import 'package:gieco_west/DataLayer/Provider/user_provider.dart';
 import 'package:gieco_west/UiLayer/AuthScreens/LoginScreen/login_screen.dart';
 import 'package:gieco_west/UiLayer/Drawer/drawer.dart';
 import 'package:gieco_west/UiLayer/HomeScreen/widgets/home_item.dart';
@@ -12,6 +13,7 @@ import 'package:gieco_west/Utils/colors.dart';
 import 'package:gieco_west/Utils/const.dart';
 import 'package:gieco_west/Utils/dialog_utils.dart';
 import 'package:gieco_west/Utils/my_functions.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -54,6 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
           return a.compareTo(b);
         },
       );
+    }
+
+    var snapShots = await FirebaseUtils.fetchAdminTokens();
+    if (snapShots.docs.isNotEmpty) {
+      Provider.of<UserProvider>(context, listen: false).adminTokens =
+          snapShots.docs.map((e) => e.data()).toList();
     }
   }
 
