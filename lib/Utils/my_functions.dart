@@ -12,7 +12,7 @@ class MyFunctions {
     var selectedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime.now().subtract(const Duration(days: 31)),
+        firstDate: DateTime(2024, 7, 1),
         lastDate: DateTime.now());
 
     if (selectedDate != null) {

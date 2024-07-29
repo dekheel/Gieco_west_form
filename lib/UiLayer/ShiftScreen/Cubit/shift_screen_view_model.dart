@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gieco_west/DataLayer/Api/firebase_utils.dart';
+import 'package:gieco_west/DataLayer/Database/hive_services.dart';
 import 'package:gieco_west/DataLayer/Model/my_report.dart';
 import 'package:gieco_west/DataLayer/Provider/user_provider.dart';
 import 'package:gieco_west/UiLayer/TripScreen/report_states.dart';
@@ -27,6 +28,8 @@ class ShiftScreenViewModel extends Cubit<ReportStates> {
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
   ];
+
+  HiveService hiveServices = HiveService.getInstance();
 
 //    //basic info
   TextEditingController locoNoCtrl = TextEditingController();
@@ -75,16 +78,20 @@ class ShiftScreenViewModel extends Cubit<ReportStates> {
 
       var either = await FirebaseUtils.getInstance().addShiftReportToFirestore(
           getReportModel(context), userProvider.currentUser?.id ?? "");
+
+      HiveService.getInstance()
+          .addShiftData("${locoDateCtrl.text}shift", getReportModel(context));
+
       either.fold((l) {
         emit(ReportErrorState(errorMsg: l.errorMessage));
-      }, (response) {
+      }, (response) async {
         MyFunctions.sendNotificationsforAdmins(
             admins: userProvider.adminTokens,
             context: context,
             title: "تم اضافة وردية رقم${locoNoCtrl.text}",
             body: '''
-         ${userProvider.currentUser!.name!} 
-        بتاريخ ${locoDateCtrl.text} 
+         ${userProvider.currentUser!.name!}
+        بتاريخ ${locoDateCtrl.text}
         ''');
 
         emit(ReportSuccessState());
@@ -184,8 +191,8 @@ class ShiftScreenViewModel extends Cubit<ReportStates> {
         isFuel: isFuel,
         fuelInvoiceNo: fuelInvoiceNoCtrl.text,
         fuelType: fuelType,
-        gazQty: gazQtyCtrl.text.toDouble(),
-        oilQty: oilQtyCtrl.text.toDouble(),
+        gazQty: gazQtyCtrl.text,
+        oilQty: oilQtyCtrl.text,
         invoiceImagePath: fuelInvoiceUrlCtrl.text,
       ),
       employeeReportData: EmployeeReportData(
@@ -198,8 +205,8 @@ class ShiftScreenViewModel extends Cubit<ReportStates> {
       depStation: depStationCtrl.text,
       depTime: depTimeCtrl.text,
       arrTime: arrTimeCtrl.text,
-      gazOnDep: gazOnDepCtrl.text.toDouble(),
-      gazOnArr: gazOnArrCtrl.text.toDouble(),
+      gazOnDep: gazOnDepCtrl.text,
+      gazOnArr: gazOnArrCtrl.text,
     );
     return reportModel;
   }

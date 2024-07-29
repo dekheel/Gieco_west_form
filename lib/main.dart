@@ -6,12 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gieco_west/DataLayer/Database/hive_services.dart';
+import 'package:gieco_west/DataLayer/Model/my_report.dart';
 import 'package:gieco_west/DataLayer/Provider/user_provider.dart';
 import 'package:gieco_west/DataLayer/SharedPreferences/shared_preferences.dart';
 import 'package:gieco_west/UiLayer/AuthScreens/AuthChecker/auth_checker.dart';
 import 'package:gieco_west/UiLayer/AuthScreens/LoginScreen/login_screen.dart';
 import 'package:gieco_west/UiLayer/AuthScreens/SignUpScreen/signup_screen.dart';
 import 'package:gieco_west/UiLayer/HomeScreen/home_screen.dart';
+import 'package:gieco_west/UiLayer/ReportsScreen/reports_screen.dart';
+import 'package:gieco_west/UiLayer/ReportsScreen/view_report.dart';
 import 'package:gieco_west/UiLayer/ShiftScreen/shift_screen.dart';
 import 'package:gieco_west/UiLayer/SplashScreen/splash_screen.dart';
 import 'package:gieco_west/UiLayer/TripScreen/trip_screen.dart';
@@ -21,6 +25,7 @@ import 'package:gieco_west/Utils/FireBase/firebase_options.dart';
 import 'package:gieco_west/Utils/colors.dart';
 import 'package:gieco_west/Utils/const.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -32,11 +37,21 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  Hive.registerAdapter(GeneralReportDataAdapter());
+  Hive.registerAdapter(FuelReportDataAdapter());
+  Hive.registerAdapter(StockTripReportDataAdapter());
+  Hive.registerAdapter(EmployeeReportDataAdapter());
+  Hive.registerAdapter(TripReportAdapter());
+  Hive.registerAdapter(ShiftReportAdapter());
+
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
   );
 
-  await FirebaseMessaging.instance.requestPermission();
+  // initialize hive
+  await HiveService.getInstance().init();
+
+  // await FirebaseMessaging.instance.requestPermission();
   await PushNotificationService.requestPermission();
   await PushNotificationService.localNotificationInitialize();
 
@@ -66,6 +81,7 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       PushNotificationService.showNotification(message);
     });
+
   }
 
   @override
@@ -87,7 +103,9 @@ class _MyAppState extends State<MyApp> {
           HomeScreen.routeName: (context) => const HomeScreen(),
           TripScreen.routeName: (context) => const TripScreen(),
           ShiftScreen.routeName: (context) => const ShiftScreen(),
-          UsersScreen.routeName: (context) => UsersScreen()
+          UsersScreen.routeName: (context) => UsersScreen(),
+          ReportsScreen.routeName: (context) => const ReportsScreen(),
+          ViewReport.routeName: (context) => ViewReport()
         },
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: const [

@@ -68,8 +68,6 @@ class FirebaseUtils {
 
         user.token = await FirebaseMessaging.instance.getToken();
 
-        debugPrint(user.token);
-
         await updateToken(user.id, user.token);
 
         // save user data

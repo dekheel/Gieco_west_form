@@ -60,8 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     var snapShots = await FirebaseUtils.fetchAdminTokens();
     if (snapShots.docs.isNotEmpty) {
-      Provider.of<UserProvider>(context, listen: false).adminTokens =
-          snapShots.docs.map((e) => e.data()).toList();
+        Provider.of<UserProvider>(context, listen: false).adminTokens =
+            snapShots.docs.map((e) => e.data()).toList();
+
     }
   }
 
