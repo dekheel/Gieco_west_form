@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gieco_west/DataLayer/Model/my_user.dart';
+import 'package:gieco_west/Utils/FireBase/access_firebase_token.dart';
 import 'package:intl/intl.dart';
 
 class MyFunctions {
@@ -10,7 +12,7 @@ class MyFunctions {
     var selectedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime.now().subtract(const Duration(days: 31)),
+        firstDate: DateTime(2024, 7, 1),
         lastDate: DateTime.now());
 
     if (selectedDate != null) {
@@ -49,5 +51,21 @@ class MyFunctions {
         (map.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key))));
 
     return sortedMap;
+  }
+
+  static sendNotificationsforAdmins(
+      {required List<MyUser> admins,
+      required BuildContext context,
+      required String title,
+      required String body}) {
+    for (var i = 0; i < admins.length; i++) {
+      if (admins[i].token != null) {
+        PushNotificationService.sendNotificationSpecificUser(
+            deviceToken: admins[i].token!,
+            context: context,
+            title: title,
+            body: body);
+      }
+    }
   }
 }

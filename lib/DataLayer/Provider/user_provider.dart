@@ -4,6 +4,8 @@ import 'package:gieco_west/DataLayer/Model/my_user.dart';
 class UserProvider extends ChangeNotifier {
   MyUser? currentUser;
 
+  List<MyUser> adminTokens = [];
+
   UserProvider({required MyUser? newUser}) {
     if (newUser != null) {
       currentUser = newUser;
@@ -14,6 +16,13 @@ class UserProvider extends ChangeNotifier {
   void updateUser({MyUser? newUser}) {
     if (newUser != null) {
       currentUser = newUser;
+      notifyListeners();
+    }
+  }
+
+  void addAdminTokens({List<MyUser>? adminListTokens}) {
+    if (adminListTokens != null) {
+      adminTokens = adminListTokens;
       notifyListeners();
     }
   }

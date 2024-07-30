@@ -8,12 +8,14 @@ class CustomTextWgt extends StatelessWidget {
       this.fontSize,
       super.key,
       this.color,
+      this.fontWeight,
       required this.data});
 
   final String data;
   final Color? color;
   final double? fontSize;
   final int? maxLines;
+  final FontWeight? fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +24,10 @@ class CustomTextWgt extends StatelessWidget {
       softWrap: true,
       overflow: TextOverflow.ellipsis,
       maxLines: maxLines,
-      style: Theme.of(context)
-          .textTheme
-          .bodyLarge
-          ?.copyWith(color: color ?? MyColors.blackColor, fontSize: fontSize),
+      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+          color: color ?? MyColors.blackColor,
+          fontSize: fontSize,
+          fontWeight: fontWeight),
     );
   }
 }

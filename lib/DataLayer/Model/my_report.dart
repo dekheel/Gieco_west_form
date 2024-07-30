@@ -1,5 +1,10 @@
 import 'dart:io';
 
+import 'package:hive/hive.dart';
+
+part 'my_report.g.dart';
+
+@HiveType(typeId: 5)
 class GeneralReportData {
   GeneralReportData(
       {this.locoNo,
@@ -7,10 +12,16 @@ class GeneralReportData {
       this.globalNote,
       this.locoCapNotes,
       this.user});
+
+  @HiveField(0)
   String? locoNo;
+  @HiveField(1)
   String? locoDate;
+  @HiveField(2)
   String? locoCapNotes;
+  @HiveField(3)
   String? globalNote;
+  @HiveField(4)
   String? user;
 
   Map<String, dynamic> toFirestore() {
@@ -32,6 +43,7 @@ class GeneralReportData {
             user: data?["user"]);
 }
 
+@HiveType(typeId: 4)
 class FuelReportData {
   FuelReportData({
     this.isFuel,
@@ -41,13 +53,20 @@ class FuelReportData {
     this.oilQty,
     this.invoiceImagePath,
   });
-  String? fuelInvoiceNo;
-  bool? isFuel;
-  String? fuelType;
-  double? gazQty;
-  double? oilQty;
 
+  @HiveField(0)
+  bool? isFuel;
+  @HiveField(1)
+  String? fuelInvoiceNo;
+  @HiveField(2)
+  String? fuelType;
+  @HiveField(3)
+  String? gazQty;
+  @HiveField(4)
+  String? oilQty;
+  @HiveField(5)
   String? invoiceImagePath;
+  @HiveField(6)
   File? invoiceImage;
 
   Map<String, dynamic> toFirestore() {
@@ -67,10 +86,11 @@ class FuelReportData {
             isFuel: data["isFuel"],
             fuelType: data["fuelType"],
             invoiceImagePath: data["invoiceImagePath"],
-            gazQty: data["gazQty"],
-            oilQty: data["oilQty"]);
+            gazQty: data["gazQty"].toString(),
+            oilQty: data["oilQty"].toString());
 }
 
+@HiveType(typeId: 3)
 class StockTripReportData {
   StockTripReportData(
       {this.trainEmpty,
@@ -85,16 +105,27 @@ class StockTripReportData {
       this.trainType,
       this.waybillNo});
 
+  @HiveField(0)
   String? trainType;
+  @HiveField(1)
   String? coachQuantity;
+  @HiveField(2)
   String? trainState;
+  @HiveField(3)
   String? trainEmpty;
+  @HiveField(4)
   String? waybillNo;
+  @HiveField(5)
   String? tariff;
+  @HiveField(6)
   String? firstCoachNo;
+  @HiveField(7)
   String? lastCoachNo;
+  @HiveField(8)
   String? sebensaNo;
+  @HiveField(9)
   String? trainSecurity;
+  @HiveField(10)
   String? tempStation;
 
   Map<String, dynamic> toFirestore() {
@@ -129,6 +160,7 @@ class StockTripReportData {
         );
 }
 
+@HiveType(typeId: 2)
 class EmployeeReportData {
   EmployeeReportData(
       {this.trainCap,
@@ -138,11 +170,17 @@ class EmployeeReportData {
       this.trainConductor,
       this.trainConductorSap});
   // trip emp info
+  @HiveField(0)
   String? trainCap;
+  @HiveField(1)
   String? trainCapSap;
+  @HiveField(2)
   String? trainCapAsst;
+  @HiveField(3)
   String? trainCapAsstSap;
+  @HiveField(4)
   String? trainConductor;
+  @HiveField(5)
   String? trainConductorSap;
   Map<String, dynamic> toFirestore() {
     return {
@@ -166,6 +204,7 @@ class EmployeeReportData {
         );
 }
 
+@HiveType(typeId: 0)
 class TripReport {
   static String collectionName = "TripReports";
   TripReport(
@@ -182,19 +221,31 @@ class TripReport {
       this.tripType,
       this.arrStation});
   // stock trip info
+
+  @HiveField(0)
   StockTripReportData? stockTripReportData;
+  @HiveField(1)
   FuelReportData? fuelReportData;
+  @HiveField(2)
   GeneralReportData? generalReportData;
   // trip info
+  @HiveField(3)
   String? tripType;
+  @HiveField(4)
   String? depStation;
+  @HiveField(5)
   String? nxtArrFromdepStation;
+  @HiveField(6)
   String? arrStation;
+  @HiveField(7)
   String? depTime;
+  @HiveField(8)
   String? arrTime;
-  double? gazOnDep;
-  double? gazOnArr;
-
+  @HiveField(9)
+  String? gazOnDep;
+  @HiveField(10)
+  String? gazOnArr;
+  @HiveField(11)
   EmployeeReportData? employeeReportData;
 
   Map<String, dynamic> toFirestore() {
@@ -249,15 +300,13 @@ class TripReport {
       "رقم السبنسة": data["stockTripReportData"]["sebensaNo"],
       "اماكن التخزين": data["stockTripReportData"]["tempStation"],
       "أمن القطار": data["stockTripReportData"]["trainSecurity"],
-      "نوع الرحلة": data["tripType"],
-      "محطة القيام": data["tripType"] == "قيام" ? data["depStation"] : "-",
-      "وقت القيام": data["tripType"] == "قيام" ? data["depTime"] : "-",
-      "السولار عند القيام": data["tripType"] == "قيام" ? data["gazOnDep"] : "-",
-      "محطة الوصول التالية":
-          data["tripType"] == "قيام" ? data["nxtArrFromdepStation"] : "-",
-      "محطة الوصول": data["tripType"] == "وصول" ? data["arrStation"] : "-",
-      "وقت الوصول": data["tripType"] == "وصول" ? data["arrTime"] : "-",
-      "السولار عند الوصول": data["tripType"] == "وصول" ? data["gazOnArr"] : "-",
+      "محطة القيام": data["depStation"],
+      "وقت القيام": data["depTime"],
+      "السولار عند القيام": data["gazOnDep"],
+      "محطة الوصول التالية": data["nxtArrFromdepStation"],
+      "محطة الوصول": data["arrStation"],
+      "وقت الوصول": data["arrTime"],
+      "السولار عند الوصول": data["gazOnArr"],
       "قائد القطار": data["employeeReportData"]["trainCap"],
       "ساب القائد": data["employeeReportData"]["trainCapSap"],
       "م قائد القطار": data["employeeReportData"]["trainCapAsst"],
@@ -277,8 +326,27 @@ class TripReport {
           arrStation: data["arrStation"],
           depTime: data["depTime"],
           arrTime: data["arrTime"],
-          gazOnDep: data["gazOnDep"],
-          gazOnArr: data["gazOnArr"],
+          gazOnDep: data["gazOnDep"].toString(),
+          gazOnArr: data["gazOnArr"].toString(),
+          generalReportData:
+              GeneralReportData.fromFirestore(data["generalReportData"]),
+          fuelReportData: FuelReportData.fromFirestore(data["fuelReportData"]),
+          employeeReportData:
+              EmployeeReportData.fromFirestore(data["employeeReportData"]),
+          stockTripReportData:
+              StockTripReportData.fromFirestore(data["stockTripReportData"]),
+        );
+
+  TripReport.fromHive(Map<dynamic, dynamic> data)
+      : this(
+          tripType: data["tripType"],
+          depStation: data["depStation"],
+          nxtArrFromdepStation: data["nxtArrFromdepStation"],
+          arrStation: data["arrStation"],
+          depTime: data["depTime"],
+          arrTime: data["arrTime"],
+          gazOnDep: data["gazOnDep"].toString(),
+          gazOnArr: data["gazOnArr"].toString(),
           generalReportData:
               GeneralReportData.fromFirestore(data["generalReportData"]),
           fuelReportData: FuelReportData.fromFirestore(data["fuelReportData"]),
@@ -289,6 +357,7 @@ class TripReport {
         );
 }
 
+@HiveType(typeId: 1)
 class ShiftReport {
   static String collectionName = "ShiftReports";
 
@@ -305,14 +374,24 @@ class ShiftReport {
   });
 
   // shift info
+
+  @HiveField(0)
   FuelReportData? fuelReportData;
+  @HiveField(1)
   GeneralReportData? generalReportData;
+  @HiveField(2)
   String? shiftType;
+  @HiveField(3)
   String? depStation;
+  @HiveField(4)
   String? depTime;
+  @HiveField(5)
   String? arrTime;
-  double? gazOnDep;
-  double? gazOnArr;
+  @HiveField(6)
+  String? gazOnDep;
+  @HiveField(7)
+  String? gazOnArr;
+  @HiveField(8)
   EmployeeReportData? employeeReportData;
 
   Map<String, dynamic> toFirestore() {
@@ -335,8 +414,23 @@ class ShiftReport {
           depStation: data["depStation"] as String,
           depTime: data["depTime"],
           arrTime: data["arrTime"],
-          gazOnDep: data["gazOnDep"] as double,
-          gazOnArr: data["gazOnArr"] as double,
+          gazOnDep: data["gazOnDep"].toString(),
+          gazOnArr: data["gazOnArr"].toString(),
+          generalReportData:
+              GeneralReportData.fromFirestore(data["generalReportData"]),
+          fuelReportData: FuelReportData.fromFirestore(data["fuelReportData"]),
+          employeeReportData:
+              EmployeeReportData.fromFirestore(data["employeeReportData"]),
+        );
+
+  ShiftReport.fromHive(Map<dynamic, dynamic> data)
+      : this(
+          shiftType: data["shiftType"] as String,
+          depStation: data["depStation"] as String,
+          depTime: data["depTime"],
+          arrTime: data["arrTime"],
+          gazOnDep: data["gazOnDep"].toString(),
+          gazOnArr: data["gazOnArr"].toString(),
           generalReportData:
               GeneralReportData.fromFirestore(data["generalReportData"]),
           fuelReportData: FuelReportData.fromFirestore(data["fuelReportData"]),

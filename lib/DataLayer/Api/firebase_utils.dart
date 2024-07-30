@@ -7,6 +7,7 @@ import 'package:dartz/dartz.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gieco_west/DataLayer/Model/failures_entity.dart';
@@ -65,11 +66,9 @@ class FirebaseUtils {
         // read user data
         var user = await readUserFromFirestore(credential.user!.uid);
 
-        // user.token = await FirebaseMessaging.instance.getToken();
-        //
-        // await getUsersCollection().doc(user.id).update({
-        //   "token": user.token,
-        // });
+        user.token = await FirebaseMessaging.instance.getToken();
+
+        await updateToken(user.id, user.token);
 
         // save user data
         await SharedPreference.saveUserData(userDto: user);
@@ -100,9 +99,11 @@ class FirebaseUtils {
 
         user.id = credential.user!.uid;
 
+        user.token = await FirebaseMessaging.instance.getToken();
+
         // save user data to firestore
 
-        addUserToFirestore(user);
+        await addUserToFirestore(user);
 
         // save user data
         await SharedPreference.saveUserData(userDto: user);
@@ -462,5 +463,13 @@ class FirebaseUtils {
       return Left(Failures(errorMessage: "لم يتم حفظ التقرير"));
     }
     // }
+  }
+
+  static Future<void> updateToken(String? userId, String? token) async {
+    await getUsersCollection().doc(userId).update({"token": token});
+  }
+
+  static Future<QuerySnapshot<MyUser>> fetchAdminTokens() {
+    return getUsersCollection().where("role", isEqualTo: "admin").get();
   }
 }

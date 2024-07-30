@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:gieco_west/DataLayer/Provider/user_provider.dart';
 import 'package:gieco_west/UiLayer/Drawer/drawer_item.dart';
 import 'package:gieco_west/UiLayer/Reports/report_screen.dart';
+import 'package:gieco_west/UiLayer/ReportsScreen/reports_screen.dart';
 import 'package:gieco_west/UiLayer/ShiftScreen/shift_screen.dart';
 import 'package:gieco_west/UiLayer/TripScreen/trip_screen.dart';
 import 'package:gieco_west/UiLayer/UsersScreen/users_screen.dart';
@@ -72,6 +73,16 @@ class _MyDrawerState extends State<MyDrawer> {
             Gap(
               20.h,
             ),
+            DrawerItem(
+                icon: Icons.print,
+                title: "طباعة التقارير",
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed(ReportsScreen.routeName);
+                }),
+            Gap(
+              20.h,
+            ),
             userProvider.currentUser?.role == "admin"
                 ? Column(
                     children: [
@@ -87,13 +98,12 @@ class _MyDrawerState extends State<MyDrawer> {
                         20.h,
                       ),
                       DrawerItem(
-                          icon: Icons.file_present,
-                          title: "تقارير",
+                          icon: Icons.download,
+                          title: "تنزيل التقارير",
                           onTap: () async {
                             if (userProvider.currentUser?.role == "admin") {
                               // AdManager.loadRewardedAd();
                               Navigator.of(context).pop();
-
                               showMaterialModalBottomSheet(
                                 bounce: true,
                                 context: context,
@@ -101,7 +111,6 @@ class _MyDrawerState extends State<MyDrawer> {
                               );
                             } else {
                               Navigator.of(context).pop();
-
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text(

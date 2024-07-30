@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gieco_west/DataLayer/Api/firebase_utils.dart';
+import 'package:gieco_west/DataLayer/Database/hive_services.dart';
 import 'package:gieco_west/DataLayer/Model/my_report.dart';
 import 'package:gieco_west/DataLayer/Provider/user_provider.dart';
 import 'package:gieco_west/UiLayer/TripScreen/report_states.dart';
+import 'package:gieco_west/Utils/my_functions.dart';
 import 'package:provider/provider.dart';
 import 'package:string_validator/string_validator.dart';
 
@@ -86,14 +88,27 @@ class TripScreenViewModel extends Cubit<ReportStates> {
       await Future.delayed(const Duration(seconds: 5));
       if (trainCapCtrl.text == trainCapAsstCtrl.text) {
         emit(ReportErrorState(
-            errorMsg: "عفواً يجب اختيار قائد ومساعد قائد قطار مختلفين"));
+            errorMsg: "عفواً يجب اختيار قائد قطار ومساعد قائد قطار مختلفين"));
         return;
       }
       var either = await FirebaseUtils.getInstance().addTripReportToFirestore(
           getReportModel(context), userProvider.currentUser?.id ?? "");
+
+      HiveService.getInstance()
+          .addTripData("${locoDateCtrl.text}trip", getReportModel(context));
+
       either.fold((l) {
         emit(ReportErrorState(errorMsg: l.errorMessage));
       }, (response) {
+        MyFunctions.sendNotificationsforAdmins(
+            admins: userProvider.adminTokens,
+            context: context,
+            title: "تم اضافة سفرية رقم${locoNoCtrl.text}",
+            body: '''
+         ${userProvider.currentUser!.name!}
+        بتاريخ ${locoDateCtrl.text}
+        ''');
+
         emit(ReportSuccessState());
         resetForm();
       });
@@ -191,8 +206,8 @@ class TripScreenViewModel extends Cubit<ReportStates> {
         isFuel: isFuel,
         fuelInvoiceNo: fuelInvoiceNoCtrl.text,
         fuelType: fuelType,
-        gazQty: gazQtyCtrl.text.toDouble(),
-        oilQty: oilQtyCtrl.text.toDouble(),
+        gazQty: gazQtyCtrl.text,
+        oilQty: oilQtyCtrl.text,
         invoiceImagePath: fuelInvoiceUrlCtrl.text,
       ),
       stockTripReportData: StockTripReportData(
@@ -222,8 +237,8 @@ class TripScreenViewModel extends Cubit<ReportStates> {
       arrStation: arrStationCtrl.text,
       depTime: depTimeCtrl.text,
       arrTime: arrTimeCtrl.text,
-      gazOnDep: gazOnDepCtrl.text.toDouble(),
-      gazOnArr: gazOnArrCtrl.text.toDouble(),
+      gazOnDep: gazOnDepCtrl.text,
+      gazOnArr: gazOnArrCtrl.text,
     );
     return reportModel;
   }

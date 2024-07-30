@@ -564,127 +564,119 @@ class _TripScreenState extends State<TripScreen>
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    // Gap(10.h),
+                    // CustomDropFormField(
+                    //     onChanged: (value) {
+                    //       setState(() {
+                    //         viewModel.tripTypeCtrl.text = value ?? "";
+                    //
+                    //         if (value == "وصول") {
+                    //           viewModel.depStationCtrl.clear();
+                    //           viewModel.depTimeCtrl.clear();
+                    //           viewModel.nxtArrFromdepStationCtrl.clear();
+                    //           viewModel.gazOnDepCtrl.clear();
+                    //         } else if (value == "قيام") {
+                    //           viewModel.arrTimeCtrl.clear();
+                    //           viewModel.arrStationCtrl.clear();
+                    //           viewModel.gazOnArrCtrl.clear();
+                    //         }
+                    //       });
+                    //     },
+                    //     labelText: 'نوع الرحلة',
+                    //     listData: const ["قيام", "وصول"]),
                     Gap(10.h),
-                    CustomDropFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            viewModel.tripTypeCtrl.text = value ?? "";
-
-                            if (value == "وصول") {
-                              viewModel.depStationCtrl.clear();
-                              viewModel.depTimeCtrl.clear();
-                              viewModel.nxtArrFromdepStationCtrl.clear();
-                              viewModel.gazOnDepCtrl.clear();
-                            } else if (value == "قيام") {
-                              viewModel.arrTimeCtrl.clear();
-                              viewModel.arrStationCtrl.clear();
-                              viewModel.gazOnArrCtrl.clear();
+                    Column(
+                      children: [
+                        CustomTextFormField(
+                          validator: viewModel.textFieldValid,
+                          labelText: "محطة القيام",
+                          controller: viewModel.depStationCtrl,
+                          inputType: TextInputType.text,
+                          onChanged: (value) {
+                            viewModel.depStationCtrl.text = value;
+                          },
+                        ),
+                        Gap(10.h),
+                        CustomTextFormField(
+                          onTap: () async {
+                            var selectedTime = await MyFunctions.selectTime(
+                                context, viewModel.locoDateCtrl.text);
+                            if (selectedTime != null) {
+                              viewModel.depTimeCtrl.text = selectedTime;
                             }
-                          });
-                        },
-                        labelText: 'نوع الرحلة',
-                        listData: const ["قيام", "وصول"]),
-                    Gap(10.h),
-                    Visibility(
-                        visible: viewModel.tripTypeCtrl.text == "قيام",
-                        child: Column(
-                          children: [
-                            CustomTextFormField(
-                              validator: viewModel.textFieldValid,
-                              labelText: "محطة القيام",
-                              controller: viewModel.depStationCtrl,
-                              inputType: TextInputType.text,
-                              onChanged: (value) {
-                                viewModel.depStationCtrl.text = value;
-                              },
-                            ),
-                            Gap(10.h),
-                            CustomTextFormField(
-                              onTap: () async {
-                                var selectedTime = await MyFunctions.selectTime(
-                                    context, viewModel.locoDateCtrl.text);
-                                if (selectedTime != null) {
-                                  viewModel.depTimeCtrl.text = selectedTime;
-                                }
-                              },
-                              validator: viewModel.commonFieldValid,
-                              labelText: "وقت القيام",
-                              isReadOnly: true,
-                              controller: viewModel.depTimeCtrl,
-                              inputType: TextInputType.datetime,
-                              suffixIcon: const Icon(
-                                Icons.access_time_rounded,
-                                color: MyColors.blueM3LightPrimary,
-                              ),
-                            ),
-                            Gap(10.h),
-                            CustomTextFormField(
-                              validator: viewModel.textFieldValid,
-                              labelText: "محطة الوصول التالية",
-                              controller: viewModel.nxtArrFromdepStationCtrl,
-                              inputType: TextInputType.text,
-                              onChanged: (value) {
-                                viewModel.nxtArrFromdepStationCtrl.text = value;
-                              },
-                            ),
-                            Gap(10.h),
-                            CustomTextFormField(
-                              validator: viewModel.numberFieldValid,
-                              labelText: "كمية السولار عند القيام",
-                              controller: viewModel.gazOnDepCtrl,
-                              inputType: TextInputType.number,
-                              onChanged: (value) {
-                                viewModel.gazOnDepCtrl.text = value;
-                              },
-                            ),
-                            Gap(10.h),
-                          ],
-                        )),
-                    Visibility(
-                        visible: viewModel.tripTypeCtrl.text == "وصول",
-                        child: Column(
-                          children: [
-                            CustomTextFormField(
-                              validator: viewModel.textFieldValid,
-                              labelText: "محطة الوصول",
-                              controller: viewModel.arrStationCtrl,
-                              inputType: TextInputType.text,
-                              onChanged: (value) {
-                                viewModel.arrStationCtrl.text = value;
-                              },
-                            ),
-                            Gap(10.h),
-                            CustomTextFormField(
-                              onTap: () async {
-                                var selectedTime = await MyFunctions.selectTime(
-                                    context, viewModel.locoDateCtrl.text);
-                                if (selectedTime != null) {
-                                  viewModel.arrTimeCtrl.text = selectedTime;
-                                }
-                              },
-                              validator: viewModel.commonFieldValid,
-                              labelText: "وقت الوصول",
-                              isReadOnly: true,
-                              controller: viewModel.arrTimeCtrl,
-                              inputType: TextInputType.datetime,
-                              suffixIcon: const Icon(
-                                Icons.access_time_rounded,
-                                color: MyColors.blueM3LightPrimary,
-                              ),
-                            ),
-                            Gap(10.h),
-                            CustomTextFormField(
-                              validator: viewModel.numberFieldValid,
-                              labelText: "كمية السولار عند الوصول",
-                              controller: viewModel.gazOnArrCtrl,
-                              inputType: TextInputType.number,
-                              onChanged: (value) {
-                                viewModel.gazOnArrCtrl.text = value;
-                              },
-                            ),
-                            Gap(10.h),
-                          ],
-                        ))
+                          },
+                          validator: viewModel.commonFieldValid,
+                          labelText: "وقت القيام",
+                          isReadOnly: true,
+                          controller: viewModel.depTimeCtrl,
+                          inputType: TextInputType.datetime,
+                          suffixIcon: const Icon(
+                            Icons.access_time_rounded,
+                            color: MyColors.blueM3LightPrimary,
+                          ),
+                        ),
+                        Gap(10.h),
+                        CustomTextFormField(
+                          validator: viewModel.textFieldValid,
+                          labelText: "محطة الوصول التالية",
+                          controller: viewModel.nxtArrFromdepStationCtrl,
+                          inputType: TextInputType.text,
+                          onChanged: (value) {
+                            viewModel.nxtArrFromdepStationCtrl.text = value;
+                          },
+                        ),
+                        Gap(10.h),
+                        CustomTextFormField(
+                          validator: viewModel.numberFieldValid,
+                          labelText: "كمية السولار عند القيام",
+                          controller: viewModel.gazOnDepCtrl,
+                          inputType: TextInputType.number,
+                          onChanged: (value) {
+                            viewModel.gazOnDepCtrl.text = value;
+                          },
+                        ),
+                        Gap(10.h),
+                        CustomTextFormField(
+                          validator: viewModel.textFieldValid,
+                          labelText: "محطة الوصول",
+                          controller: viewModel.arrStationCtrl,
+                          inputType: TextInputType.text,
+                          onChanged: (value) {
+                            viewModel.arrStationCtrl.text = value;
+                          },
+                        ),
+                        Gap(10.h),
+                        CustomTextFormField(
+                          onTap: () async {
+                            var selectedTime = await MyFunctions.selectTime(
+                                context, viewModel.locoDateCtrl.text);
+                            if (selectedTime != null) {
+                              viewModel.arrTimeCtrl.text = selectedTime;
+                            }
+                          },
+                          validator: viewModel.commonFieldValid,
+                          labelText: "وقت الوصول",
+                          isReadOnly: true,
+                          controller: viewModel.arrTimeCtrl,
+                          inputType: TextInputType.datetime,
+                          suffixIcon: const Icon(
+                            Icons.access_time_rounded,
+                            color: MyColors.blueM3LightPrimary,
+                          ),
+                        ),
+                        Gap(10.h),
+                        CustomTextFormField(
+                          validator: viewModel.numberFieldValid,
+                          labelText: "كمية السولار عند الوصول",
+                          controller: viewModel.gazOnArrCtrl,
+                          inputType: TextInputType.number,
+                          onChanged: (value) {
+                            viewModel.gazOnArrCtrl.text = value;
+                          },
+                        ),
+                        Gap(10.h),
+                      ],
+                    ),
                   ],
                 ),
               ),
