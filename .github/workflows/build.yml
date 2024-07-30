@@ -24,7 +24,12 @@ jobs:
       uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.3.0' # Or specify a version like '3.3.0'
+        
+    - name: clean dependencies    
+      run: flutter clean
 
+    - name: install dependencies
+      run: flutter pub get
 
     - name: Build APK
       run: flutter build apk --release --obfuscate --split-debug-info=build/app/outputs/symbols
