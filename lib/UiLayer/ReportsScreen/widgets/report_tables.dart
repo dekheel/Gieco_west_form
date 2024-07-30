@@ -22,7 +22,6 @@ class ReportTables extends StatelessWidget {
               children: [
                 TableRow(
                   decoration: BoxDecoration(
-                    color: MyColors.blueM3LightPrimary.withOpacity(.5),
                     border: Border.all(
                       color: MyColors.blackColor,
                     ),
@@ -95,9 +94,8 @@ class ReportTables extends StatelessWidget {
             Table(
               children: [
                 TableRow(
-                  decoration: BoxDecoration(
-                    color: MyColors.blueM3LightPrimary.withOpacity(.5),
-                    border: const Border(
+                  decoration: const BoxDecoration(
+                    border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
                       right: BorderSide(),
@@ -279,9 +277,8 @@ class ReportTables extends StatelessWidget {
             Table(
               children: [
                 TableRow(
-                  decoration: BoxDecoration(
-                    color: MyColors.blueM3LightPrimary.withOpacity(.5),
-                    border: const Border(
+                  decoration: const BoxDecoration(
+                    border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
                       right: BorderSide(),
@@ -314,7 +311,6 @@ class ReportTables extends StatelessWidget {
               children: [
                 TableRow(
                   decoration: const BoxDecoration(
-                    color: MyColors.greyColor,
                     border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
@@ -431,7 +427,6 @@ class ReportTables extends StatelessWidget {
               children: [
                 TableRow(
                   decoration: const BoxDecoration(
-                    color: MyColors.greyColor,
                     border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
@@ -520,9 +515,8 @@ class ReportTables extends StatelessWidget {
             Table(
               children: [
                 TableRow(
-                  decoration: BoxDecoration(
-                    color: MyColors.blueM3LightPrimary.withOpacity(.5),
-                    border: const Border(
+                  decoration: const BoxDecoration(
+                    border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
                       right: BorderSide(),
@@ -556,7 +550,6 @@ class ReportTables extends StatelessWidget {
               children: [
                 TableRow(
                   decoration: const BoxDecoration(
-                    color: MyColors.greyColor,
                     border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
@@ -646,7 +639,6 @@ class ReportTables extends StatelessWidget {
               children: [
                 TableRow(
                   decoration: const BoxDecoration(
-                    color: MyColors.greyColor,
                     border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
@@ -702,9 +694,8 @@ class ReportTables extends StatelessWidget {
             Table(
               children: [
                 TableRow(
-                  decoration: BoxDecoration(
-                    color: MyColors.blueM3LightPrimary.withOpacity(.5),
-                    border: const Border(
+                  decoration: const BoxDecoration(
+                    border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
                       right: BorderSide(),
@@ -737,7 +728,6 @@ class ReportTables extends StatelessWidget {
               children: [
                 TableRow(
                   decoration: const BoxDecoration(
-                    color: MyColors.greyColor,
                     border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
@@ -827,7 +817,6 @@ class ReportTables extends StatelessWidget {
               children: [
                 TableRow(
                   decoration: const BoxDecoration(
-                    color: MyColors.greyColor,
                     border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
@@ -883,9 +872,8 @@ class ReportTables extends StatelessWidget {
             Table(
               children: [
                 TableRow(
-                  decoration: BoxDecoration(
-                    color: MyColors.blueM3LightPrimary.withOpacity(.5),
-                    border: const Border(
+                  decoration: const BoxDecoration(
+                    border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
                       right: BorderSide(),
@@ -918,7 +906,6 @@ class ReportTables extends StatelessWidget {
               children: [
                 TableRow(
                   decoration: const BoxDecoration(
-                    color: MyColors.greyColor,
                     border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
@@ -1015,7 +1002,6 @@ class ReportTables extends StatelessWidget {
               children: [
                 TableRow(
                   decoration: const BoxDecoration(
-                    color: MyColors.greyColor,
                     border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
@@ -1048,9 +1034,8 @@ class ReportTables extends StatelessWidget {
               border: const TableBorder(verticalInside: BorderSide()),
               children: [
                 TableRow(
-                  decoration: BoxDecoration(
-                    color: MyColors.blueM3LightPrimary.withOpacity(.5),
-                    border: const Border(
+                  decoration: const BoxDecoration(
+                    border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
                       right: BorderSide(),
@@ -1095,9 +1080,8 @@ class ReportTables extends StatelessWidget {
               border: const TableBorder(verticalInside: BorderSide()),
               children: [
                 TableRow(
-                  decoration: BoxDecoration(
-                    color: MyColors.blueM3LightPrimary.withOpacity(.5),
-                    border: const Border(
+                  decoration: const BoxDecoration(
+                    border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
                       right: BorderSide(),
@@ -1142,9 +1126,8 @@ class ReportTables extends StatelessWidget {
               border: const TableBorder(verticalInside: BorderSide()),
               children: [
                 TableRow(
-                  decoration: BoxDecoration(
-                    color: MyColors.blueM3LightPrimary.withOpacity(.5),
-                    border: const Border(
+                  decoration: const BoxDecoration(
+                    border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
                       right: BorderSide(),
@@ -1168,7 +1151,6 @@ class ReportTables extends StatelessWidget {
               children: [
                 TableRow(
                   decoration: const BoxDecoration(
-                    color: MyColors.greyColor,
                     border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
@@ -1231,9 +1213,8 @@ class ReportTables extends StatelessWidget {
               border: const TableBorder(verticalInside: BorderSide()),
               children: [
                 TableRow(
-                  decoration: BoxDecoration(
-                    color: MyColors.greyColor.withOpacity(.5),
-                    border: const Border(
+                  decoration: const BoxDecoration(
+                    border: Border(
                       left: BorderSide(),
                       bottom: BorderSide(),
                       right: BorderSide(),
